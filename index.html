@@ -9,31 +9,42 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="src/css/reset.css">
     <link rel="stylesheet" href="src/css/base.css">
-    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/cabecalho.css">
 
 </head>
 
 <body>
-    <header>
-        <a href="/">
-            <img src="./assets/images/logo.svg" alt="Dev em Dobro logo" />
-        </a>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="#sobre">Sobre</a></li>
-                <li><a href="#produtos">Produtos</a></li>
-                <li><a href="#perguntas">Perguntas Frequentes</a></li>
-                <li><a href="#fale">Fale Conosto</a></li>
-            </ul>
-        </nav>
-        <button>
-            <img src="./assets/images/icone_carrinho.svg" alt="Ícone do carrinho de compras" />
-        </button>
+    <header class="cabecalho">
+        <div class="header-conteudo">
+            <div class="header-esquerda">
+                <button class="menu-hamburguer">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <a class="logo" href="/">
+                    <img src="./assets/images/logo.svg" alt="Dev em Dobro logo" />
+                </a>
+            </div>
+            <nav class="menu-principal">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#produtos">Produtos</a></li>
+                    <li><a href="#perguntas">Perguntas Frequentes</a></li>
+                    <li><a href="#fale">Fale Conosto</a></li>
+                </ul>
+            </nav>
+            <button class="botao-carrinho" aria-label="Carrinho de compras" data-micromodal-trigger="modal-1">
+                <img src="./assets/images/icone_carrinho.svg" alt="Ícone do carrinho de compras" />
+                <span id="contador-carrinho">0</span>
+            </button>
+        </div>
     </header>
     <main>
         <section>
