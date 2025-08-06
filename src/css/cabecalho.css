@@ -29,6 +29,7 @@
 
 .cabecalho .menu-principal ul li a:hover {
     background-color: var(--cor-primaria-hover);
+    border-radius: 50px;
 }
 
 .cabecalho.menu-ativo .menu-principal {
