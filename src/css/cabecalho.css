@@ -105,8 +105,16 @@
     .cabecalho .menu-principal ul {
         display: flex;
         flex-direction: row;
-        gap: 3rem;
+        gap: 1rem;
         padding: 0;
+    }
+
+    .cabecalho .menu-principal ul li a {
+        font-size: 0.86rem;
+    }
+
+    .menu-hamburguer {
+        display: none;
     }
 }
 
@@ -114,5 +122,13 @@
     .cabecalho {
         max-width: 1440px;
         margin: 0 auto;
+    }
+
+    .cabecalho .menu-principal ul {
+        gap: 2rem;
+    }
+
+    .cabecalho .menu-principal ul li a {
+        font-size: 1rem;
     }
 }

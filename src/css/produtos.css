@@ -18,9 +18,12 @@ main section ul {
 }
 
 .produto {
-    /* background-color: var(--cor-neutra-clara); */
+    background-color: var(--cor-cinza-escura);
     max-width: 368px;
     border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .produto figure img {
@@ -70,7 +73,8 @@ main section ul {
     border: none;
     border-radius: 8px;
     color: var(--cor-neutra-clara);
-    font-size: 1rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
     padding: 1rem;
     cursor: pointer;
     margin-top: 0.5rem;
