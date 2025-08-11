@@ -57,6 +57,7 @@ botoesAdicionarAoCarrinho.forEach(botao => {
 
         salvarProdutosNoCarrinho(carrinho);
         atualizarContadorCarrinho();
+        renderizarTabelaCarrinho();
     });
 });
 
@@ -82,3 +83,26 @@ function atualizarContadorCarrinho() {
 }
 
 atualizarContadorCarrinho();
+
+// Renderizar a tabela do carrinho de compras
+function renderizarTabelaCarrinho() {
+    const produtos = obterProdutosDoCarrinho();
+    const corpoTabela = document.querySelector('#modal-1-content table tbody');
+    if (!corpoTabela) return;
+
+    corpoTabela.innerHTML = '';
+
+    produtos.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+        ${item.nome} R$ ${item.preco.toFixed(2).replace('.', ',')}
+        
+        R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')} Deletar`;
+        corpoTabela.appendChild(tr);
+    });
+}
+
+//Lembre de chamar essa função logo após adicionar um item ao carrinho, senão a modal não atualiza os novos dados:
+
+salvarCarrinho(carrinho);
+renderizarTabelaCarrinho();
