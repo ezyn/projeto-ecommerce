@@ -95,8 +95,8 @@ function renderizarTabelaCarrinho() {
     produtos.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-        ${item.nome} R$ ${item.preco.toFixed(2).replace('.', ',')}
-        
+        ${item.nome} R$ ${produto.preco.toFixed(2).replace('.', ',')}
+
         R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')} Deletar`;
         corpoTabela.appendChild(tr);
     });
@@ -106,3 +106,27 @@ function renderizarTabelaCarrinho() {
 
 salvarCarrinho(carrinho);
 renderizarTabelaCarrinho();
+
+// Adiciona um evento de clique na tabela do carrinho
+const corpoTabela = document.querySelector('#modal-1-content table tbody');
+
+corpoTabela.addEventListener('click', function (evento) {
+    if (evento.target.classList.contains('btn-deletar')) {
+        const id = evento.target.getAttribute('data-id');
+        removerDoCarrinho(id);
+        atualizarCarrinhoETabela();
+    }
+});
+
+// Função para remover um produto do carrinho
+function removerDoCarrinho(produtoId) {
+    const carrinho = obterProdutosDoCarrinho();
+    const carrinhoAtualizado = carrinho.filter(item => item.id !== produtoId);
+    salvarCarrinho(carrinhoAtualizado);
+}
+
+// Função para atualizar o carrinho e a tabela
+function atualizarCarrinhoETabela() {
+    atualizarContadorCarrinho();
+    renderizarTabelaCarrinho();
+}
