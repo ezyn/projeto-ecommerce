@@ -94,9 +94,7 @@ function renderizarTabelaCarrinho() {
 
     produtos.forEach(item => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-        ${item.nome} R$ ${produto.preco.toFixed(2).replace('.', ',')}
-
+        tr.innerHTML = `${item.nome} R$ ${item.preco.toFixed(2).replace('.', ',')}
         R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')} Deletar`;
         corpoTabela.appendChild(tr);
     });
@@ -110,13 +108,38 @@ renderizarTabelaCarrinho();
 // Adiciona um evento de clique na tabela do carrinho
 const corpoTabela = document.querySelector('#modal-1-content table tbody');
 
-corpoTabela.addEventListener('click', function (evento) {
-    if (evento.target.classList.contains('btn-deletar')) {
+corpoTabela.addEventListener('input', function (evento) {
+    if (evento.target.classList.contains('input-quantidade')) {
         const id = evento.target.getAttribute('data-id');
-        removerDoCarrinho(id);
-        atualizarCarrinhoETabela();
+        let novaQuantidade = parseInt(evento.target.value, 10);
+
+        if (isNaN(novaQuantidade) || novaQuantidade < 1) novaQuantidade = 1;
+
+        const carrinho = obterProdutosDoCarrinho();
+        const item = carrinho.find(item => item.id === id);
+
+        if (item) {
+            item.quantidade = novaQuantidade;
+            salvarCarrinho(carrinho);
+            atualizarCarrinhoETabela();
+        }
     }
 });
+
+// atualiza o total do carrinho
+function atualizarTotalCarrinho() {
+    const carrinho = obterProdutosDoCarrinho();
+    let total = 0;
+
+    carrinho.forEach(item => {
+        total += item.preco * (item.quantidade || 1);
+    });
+
+    const totalSpan = document.getElementById('total-carrinho');
+    if (totalSpan) {
+        totalSpan.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+}
 
 // Função para remover um produto do carrinho
 function removerDoCarrinho(produtoId) {
@@ -129,4 +152,5 @@ function removerDoCarrinho(produtoId) {
 function atualizarCarrinhoETabela() {
     atualizarContadorCarrinho();
     renderizarTabelaCarrinho();
+    atualizarTotalCarrinho();
 }
