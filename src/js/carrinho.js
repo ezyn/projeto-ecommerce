@@ -140,7 +140,7 @@ function atualizarValorTotalCarrinho(){
     // Melhoria: uso de reduce para somar total, mais moderno
     const produtos = obterProdutosDoCarrinho();
     const total = produtos.reduce((acc, produto) => acc + produto.preco * produto.quantidade, 0);
-    document.getElementById('total-carrinho').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    document.getElementById('total-carrinho').textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
 };
 
 // Atualiza o carrinho e a tabela
