@@ -56,19 +56,18 @@ botoesAdicionarAoCarrinho.forEach(botao => {
         }
 
         salvarProdutosNoCarrinho(carrinho);
-        atualizarContadorCarrinho();
-        renderizarTabelaCarrinho();
+        atualizarCarrinhoETabela()
     });
 });
 
 function salvarProdutosNoCarrinho(carrinho) {
     localStorage.setItem("carrinho", JSON.stringify(carrinho));
-}
+};
 
 function obterProdutosDoCarrinho() {
     const produtos = localStorage.getItem("carrinho");
     return produtos ? JSON.parse(produtos) : [];
-}
+};
 
 // Atualiza o contador do carrinho
 function atualizarContadorCarrinho() {
@@ -80,9 +79,7 @@ function atualizarContadorCarrinho() {
     }
 
     document.getElementById('contador-carrinho').textContent = total;
-}
-
-atualizarContadorCarrinho();
+};
 
 // Renderizar a tabela do carrinho de compras
 function renderizarTabelaCarrinho() {
@@ -102,38 +99,68 @@ function renderizarTabelaCarrinho() {
                             <td>${item.nome}</td>
                             <td class="td-preco-unitario">R$ ${item.preco.toFixed(2).replace('.', ',')}</td>
                             <td class="td-quantidade">
-                                <input type="number" value="${item.quantidade}" data-id="${item.id}" class="td-quantidade" min="1" />
+                                <input type="number" class="input-quantidade" value="${item.quantidade}" data-id="${item.id}" min="1" />
                             </td>
-                            <td class="td-preco-total">
-                                R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')}
-                            </td>
+                            <td class="td-preco-total">R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')}</td>
                             <td><button class="btn-deletar" data-id="${item.id}"></button>
                         </td>`;
         corpoTabela.appendChild(tr);
     });
-}
+};
 
-//Lembre de chamar essa função logo após adicionar um item ao carrinho, senão a modal não atualiza os novos dados:
-
-// salvarCarrinho(carrinho);
-renderizarTabelaCarrinho();
-
-// Função para remover um produto do carrinho
+// Adiciona o evento de clique na tabela para remover produtos
 const corpoTabela = document.querySelector('#modal-1-content table tbody');
 corpoTabela.addEventListener('click', evento => {
     
     if (evento.target.classList.contains('btn-deletar')) {
         const id = evento.target.dataset.id;
+        //remove o produto do localStorage
         removerDoCarrinho(id);
     }
-})
+});
 
+// adiciona o evento de escuta no input do tbody
+corpoTabela.addEventListener('input', evento => {
+    // atualiza o valor total do produto
+    if(evento.target.classList.contains('input-quantidade')) {
+        const produtos = obterProdutosDoCarrinho();
+        const produto = produtos.find(produto => produto.id === evento.target.dataset.id);
+        let novaQuantidade = parseInt(evento.target.value);
+        if (produto) {
+            produto.quantidade = novaQuantidade;
+            salvarProdutosNoCarrinho(produtos);
+            atualizarCarrinhoETabela()
+        }
+    }
+});
+
+// Função para remover um produto do carrinho
 function removerDoCarrinho(id) {
     const produtos = obterProdutosDoCarrinho();
 
     // filtra os produtos que não tem o id passado por parametro
     const carrinhoAtualizado = produtos.filter(produto => produto.id !== id);
     salvarProdutosNoCarrinho(carrinhoAtualizado);
+    atualizarCarrinhoETabela()
+};
+
+// atualizar valor total do carrinho
+function atualizarValorTotalCarrinho(){
+    const produtos = obterProdutosDoCarrinho();
+    let total = 0;
+
+    produtos.forEach(produto => {
+        total += produto.preco * produto.quantidade;
+    });
+
+    document.getElementById('total-carrinho').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+};
+
+// Atualiza o carrinho e a tabela
+function atualizarCarrinhoETabela(){
     atualizarContadorCarrinho();
     renderizarTabelaCarrinho();
-}
+    atualizarValorTotalCarrinho();
+};
+
+atualizarCarrinhoETabela();
