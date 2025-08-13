@@ -94,63 +94,46 @@ function renderizarTabelaCarrinho() {
 
     produtos.forEach(item => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `${item.nome} R$ ${item.preco.toFixed(2).replace('.', ',')}
-        R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')} Deletar`;
+        tr.innerHTML = `<td class="td-produto">
+                                <img
+                                    src="${item.imagem}"
+                                    alt="${item.nome}"
+                                />
+                            <td>${item.nome}</td>
+                            <td class="td-preco-unitario">R$ ${item.preco.toFixed(2).replace('.', ',')}</td>
+                            <td class="td-quantidade">
+                                <input type="number" value="${item.quantidade}" data-id="${item.id}" class="td-quantidade" min="1" />
+                            </td>
+                            <td class="td-preco-total">
+                                R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')}
+                            </td>
+                            <td><button class="btn-deletar" data-id="${item.id}"></button>
+                        </td>`;
         corpoTabela.appendChild(tr);
     });
 }
 
 //Lembre de chamar essa função logo após adicionar um item ao carrinho, senão a modal não atualiza os novos dados:
 
-salvarCarrinho(carrinho);
+// salvarCarrinho(carrinho);
 renderizarTabelaCarrinho();
 
-// Adiciona um evento de clique na tabela do carrinho
-const corpoTabela = document.querySelector('#modal-1-content table tbody');
-
-corpoTabela.addEventListener('input', function (evento) {
-    if (evento.target.classList.contains('input-quantidade')) {
-        const id = evento.target.getAttribute('data-id');
-        let novaQuantidade = parseInt(evento.target.value, 10);
-
-        if (isNaN(novaQuantidade) || novaQuantidade < 1) novaQuantidade = 1;
-
-        const carrinho = obterProdutosDoCarrinho();
-        const item = carrinho.find(item => item.id === id);
-
-        if (item) {
-            item.quantidade = novaQuantidade;
-            salvarCarrinho(carrinho);
-            atualizarCarrinhoETabela();
-        }
-    }
-});
-
-// atualiza o total do carrinho
-function atualizarTotalCarrinho() {
-    const carrinho = obterProdutosDoCarrinho();
-    let total = 0;
-
-    carrinho.forEach(item => {
-        total += item.preco * (item.quantidade || 1);
-    });
-
-    const totalSpan = document.getElementById('total-carrinho');
-    if (totalSpan) {
-        totalSpan.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
-    }
-}
-
 // Função para remover um produto do carrinho
-function removerDoCarrinho(produtoId) {
-    const carrinho = obterProdutosDoCarrinho();
-    const carrinhoAtualizado = carrinho.filter(item => item.id !== produtoId);
-    salvarCarrinho(carrinhoAtualizado);
-}
+const corpoTabela = document.querySelector('#modal-1-content table tbody');
+corpoTabela.addEventListener('click', evento => {
+    
+    if (evento.target.classList.contains('btn-deletar')) {
+        const id = evento.target.dataset.id;
+        removerDoCarrinho(id);
+    }
+})
 
-// Função para atualizar o carrinho e a tabela
-function atualizarCarrinhoETabela() {
+function removerDoCarrinho(id) {
+    const produtos = obterProdutosDoCarrinho();
+
+    // filtra os produtos que não tem o id passado por parametro
+    const carrinhoAtualizado = produtos.filter(produto => produto.id !== id);
+    salvarProdutosNoCarrinho(carrinhoAtualizado);
     atualizarContadorCarrinho();
     renderizarTabelaCarrinho();
-    atualizarTotalCarrinho();
 }
