@@ -171,7 +171,7 @@
 
         <nav class="copyright">@2025 - Todos os direitos reservados</nav>
     </footer>
-            
+
     <div id="modal-1" class="modal" aria-hidden="true">
 
         <div tabindex="-1" data-micromodal-close>
@@ -223,19 +223,33 @@
                         </tbody>
                     </table>
                     <div class="container-preco">
-                        <span class="total-carrinho" id="total-carrinho">Total: R$ 0,00</span>
+                        <div class="container-cep-frete">
+                            <label for="cep">Calcular frete:</label>
+                            <div class="container-cep-inputs">
+                                <input type="text" id="input-cep" placeholder="Digite seu CEP" />
+                                <button id="btn-calcular-frete">Calcular frete</button>
+                            </div>
+                        </div>
+
+                        <div class="container-preco-total">
+                            <span id="subtotal-pedidos">Subtotal dos pedidos: <span class="valor">R$ 100,00</span>
+                            </span>
+                            <span id="valor-frete">Valor do frete: R$ 10,00<span class="valor"></span> </span>
+                            <span class="total-carrinho" id="total-carrinho"></span>
+                        </div>
+
                         <button class="finalizar-compra">Finalizar compra</button>
                     </div>
 
                 </div>
             </div>
-    </div>
+        </div>
 
-    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+        <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
 
-    <script src="./src/js/menu-hamburguer.js"></script>
-    <script src="./src/js/modal.js"></script>
-    <script src="./src/js/carrinho.js"></script>
+        <script src="./src/js/menu-hamburguer.js"></script>
+        <script src="./src/js/modal.js"></script>
+        <script src="./src/js/carrinho.js"></script>
 </body>
 
 </html>
